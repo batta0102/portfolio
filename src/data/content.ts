@@ -52,6 +52,7 @@ export const ui = {
     switchLang: 'English',
     switchLangLabel: 'Read this page in English',
     themeLabel: 'Basculer le thème clair / sombre',
+    portraitAlt: 'Photo de Baya Khouini',
     intro:
       "En dernière année du cycle ingénieur à ESPRIT (Tunis), spécialité Software Architecture Engineering, diplôme en juin 2027. Je conçois des systèmes LLM fiables (multi-agents, RAG) et je livre des applications full stack en production.",
     badge: 'Ouvert à un stage PFE de 6 mois dès décembre 2026',
@@ -94,6 +95,7 @@ export const ui = {
     switchLang: 'Français',
     switchLangLabel: 'Lire cette page en français',
     themeLabel: 'Toggle light / dark theme',
+    portraitAlt: 'Photo of Baya Khouini',
     intro:
       'Final-year software engineering student at ESPRIT (Tunis), specializing in Software Architecture Engineering, graduating June 2027. I build reliable LLM-powered systems (multi-agent, RAG) and ship full-stack apps to production.',
     badge: 'Open to a 6-month PFE from Dec 2026',
