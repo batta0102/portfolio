@@ -41,10 +41,10 @@ const links = ['experience', 'projects', 'skills', 'certifications', 'contact'] 
         href={otherHref}
         hreflang={otherLang}
         lang={otherLang}
-        aria-label={t.switchLangLabel}
+        title={t.switchLangLabel}
         class="rounded-md px-2 py-1 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
       >
-        <span aria-hidden="true">{otherLang.toUpperCase()}</span>
+        {otherLang.toUpperCase()}<span class="sr-only"> · {t.switchLang}</span>
       </a>
       <button
         type="button"
