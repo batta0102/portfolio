@@ -1,0 +1,73 @@
+---
+import fs from 'node:fs';
+import Icon from './Icon.astro';
+import { profile, ui, type Lang } from '../data/content';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// CV buttons only render once the PDFs exist in /public, so the live site never links to a 404.
+const cvs = [
+  { file: 'cv-fr.pdf', download: 'Baya_Khouini_CV_FR.pdf', label: t.cvFr, hreflang: 'fr' },
+  { file: 'cv-en.pdf', download: 'Baya_Khouini_CV_EN.pdf', label: t.cvEn, hreflang: 'en' },
+].filter(({ file }) => fs.existsSync(`public/${file}`));
+// Offer the CV in the visitor's language first.
+if (lang === 'en') cvs.reverse();
+
+const button = 'inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition-colors';
+const primary =
+  'bg-teal-700 text-white hover:bg-teal-800 dark:bg-teal-300 dark:text-slate-900 dark:hover:bg-teal-200';
+const secondary =
+  'border border-slate-300 text-slate-800 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800';
+const iconLink =
+  'rounded-lg p-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white';
+---
+
+<section aria-labelledby="hero-title" class="pt-16 pb-12 sm:pt-24">
+  <p
+    class="mb-5 inline-flex flex-wrap items-center gap-x-2 gap-y-1 rounded-2xl border border-emerald-300 bg-emerald-50 px-3 py-1 text-sm text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-200"
+  >
+    <span class="h-2 w-2 shrink-0 rounded-full bg-emerald-600 dark:bg-emerald-400" aria-hidden="true"></span>
+    <strong class="font-semibold">{t.badge}</strong>
+    <span class="text-emerald-800 dark:text-emerald-300">· {t.badgeDetail}</span>
+  </p>
+  <h1 id="hero-title" class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl dark:text-white">
+    {profile.name}
+  </h1>
+  <p class="mt-3 text-xl font-medium text-teal-700 sm:text-2xl dark:text-teal-300">{profile.role}</p>
+  <p class="mt-5 max-w-2xl text-lg leading-relaxed text-slate-600 dark:text-slate-300">{t.intro}</p>
+
+  <div class="mt-8 flex flex-wrap items-center gap-3">
+    {
+      cvs.map(({ file, download, label, hreflang }, i) => (
+        <a
+          href={`${base}/${file}`}
+          download={download}
+          hreflang={hreflang}
+          type="application/pdf"
+          class:list={[button, i === 0 ? primary : secondary]}
+        >
+          <Icon name="download" />
+          {label}
+        </a>
+      ))
+    }
+    <a href={`mailto:${profile.email}`} class:list={[button, cvs.length === 0 ? primary : secondary]}>
+      <Icon name="mail" />
+      {t.contactCta}
+    </a>
+    <a href={profile.github} rel="me noopener" target="_blank" class={iconLink}>
+      <Icon name="github" class="h-5 w-5" />
+      <span class="sr-only">GitHub</span>
+    </a>
+    <a href={profile.linkedin} rel="me noopener" target="_blank" class={iconLink}>
+      <Icon name="linkedin" class="h-5 w-5" />
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  </div>
+</section>

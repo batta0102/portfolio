@@ -1,0 +1,42 @@
+---
+import Chips from './Chips.astro';
+import SectionHeading from './SectionHeading.astro';
+import { languages, skills, ui, type Lang } from '../data/content';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const dt = 'text-sm font-semibold text-slate-900 sm:pt-0.5 dark:text-white';
+---
+
+<section id="skills" aria-labelledby="skills-title" class="py-12">
+  <SectionHeading id="skills">{t.sections.skills}</SectionHeading>
+  <dl class="grid gap-x-6 gap-y-2 sm:grid-cols-[11rem_1fr] sm:gap-y-4">
+    {
+      skills.map((group) => (
+        <>
+          <dt class={dt}>{group.label[lang]}</dt>
+          <dd class="mb-3 sm:mb-0">
+            <Chips items={group.items} />
+          </dd>
+        </>
+      ))
+    }
+    <dt class={dt}>{t.languagesTitle}</dt>
+    <dd class="text-sm leading-relaxed">
+      {
+        languages[lang].map((l, i) => (
+          <>
+            {i > 0 && <span aria-hidden="true"> · </span>}
+            <span>
+              {l.name} <span class="text-slate-600 dark:text-slate-400">({l.level})</span>
+            </span>
+          </>
+        ))
+      }
+    </dd>
+  </dl>
+</section>

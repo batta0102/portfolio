@@ -1,0 +1,39 @@
+---
+import Chips from './Chips.astro';
+import SectionHeading from './SectionHeading.astro';
+import { experiences, ui, type Lang } from '../data/content';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<section id="experience" aria-labelledby="experience-title" class="py-12">
+  <SectionHeading id="experience">{ui[lang].sections.experience}</SectionHeading>
+  <ol class="space-y-10 border-l border-slate-200 dark:border-slate-700">
+    {
+      experiences.map((xp) => (
+        <li class="relative pl-6">
+          <span
+            class="absolute top-2 -left-[5px] h-2.5 w-2.5 rounded-full bg-teal-700 ring-4 ring-white dark:bg-teal-300 dark:ring-slate-900"
+            aria-hidden="true"
+          />
+          <h3 class="text-lg font-semibold text-slate-900 dark:text-white">{xp.role[lang]}</h3>
+          <p class="mt-0.5 text-sm text-slate-600 dark:text-slate-400">
+            <span class="font-semibold text-slate-800 dark:text-slate-200">{xp.company}</span> · {xp.period[lang]}
+          </p>
+          <ul class="mt-3 list-disc space-y-1.5 pl-5 leading-relaxed marker:text-slate-400">
+            {xp.bullets[lang].map((b) => (
+              <li>{b}</li>
+            ))}
+          </ul>
+          <div class="mt-3">
+            <Chips items={xp.stack} />
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</section>

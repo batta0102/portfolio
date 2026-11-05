@@ -1,0 +1,42 @@
+---
+import Icon from './Icon.astro';
+import SectionHeading from './SectionHeading.astro';
+import { profile, ui, type Lang } from '../data/content';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const link =
+  'inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800';
+---
+
+<section id="contact" aria-labelledby="contact-title" class="py-12">
+  <SectionHeading id="contact">{t.sections.contact}</SectionHeading>
+  <p class="max-w-2xl text-lg leading-relaxed">{t.contactText}</p>
+  <ul class="mt-6 flex flex-wrap gap-3">
+    <li>
+      <a
+        href={`mailto:${profile.email}`}
+        class="inline-flex items-center gap-2 rounded-lg bg-teal-700 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-800 dark:bg-teal-300 dark:text-slate-900 dark:hover:bg-teal-200"
+      >
+        <Icon name="mail" />
+        {profile.email}
+      </a>
+    </li>
+    <li>
+      <a href={profile.linkedin} target="_blank" rel="me noopener" class={link}>
+        <Icon name="linkedin" />
+        LinkedIn
+      </a>
+    </li>
+    <li>
+      <a href={profile.github} target="_blank" rel="me noopener" class={link}>
+        <Icon name="github" />
+        github.com/batta0102
+      </a>
+    </li>
+  </ul>
+</section>

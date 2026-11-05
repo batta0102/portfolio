@@ -1,0 +1,26 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { certifications, ui, type Lang } from '../data/content';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<section id="certifications" aria-labelledby="certifications-title" class="py-12">
+  <SectionHeading id="certifications">{ui[lang].sections.certifications}</SectionHeading>
+  <ul class="grid gap-3 sm:grid-cols-2">
+    {
+      certifications.map((c) => (
+        <li class="rounded-xl border border-slate-200 p-4 dark:border-slate-700">
+          <p class="font-semibold text-slate-900 dark:text-white">{c.name}</p>
+          <p class="mt-0.5 text-sm text-slate-600 dark:text-slate-400">
+            {c.issuer} · {c.date[lang]}
+          </p>
+        </li>
+      ))
+    }
+  </ul>
+</section>
