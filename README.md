@@ -28,5 +28,6 @@ The workflow in `.github/workflows/deploy.yml` (branch `ci/actions-deploy` until
 
 ```sh
 npm run build && touch dist/.nojekyll
-cd dist && git init -b gh-pages && git add -A && git commit -m "Deploy" \n  && git push -f https://github.com/batta0102/portfolio.git gh-pages && rm -rf .git
+cd dist && git init -b gh-pages && git add -A && git commit -m "Deploy" \
+  && git push -f https://github.com/batta0102/portfolio.git gh-pages && rm -rf .git
 ```
