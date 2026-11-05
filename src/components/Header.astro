@@ -1,0 +1,77 @@
+---
+import Icon from './Icon.astro';
+import { profile, ui, type Lang } from '../data/content';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const otherLang: Lang = lang === 'fr' ? 'en' : 'fr';
+const otherHref = otherLang === 'fr' ? `${base}/` : `${base}/en/`;
+const home = lang === 'fr' ? `${base}/` : `${base}/en/`;
+const links = ['experience', 'projects', 'skills', 'certifications', 'contact'] as const;
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-slate-900/90"
+>
+  <div class="mx-auto flex h-14 max-w-4xl items-center justify-between gap-4 px-4 sm:px-6">
+    <a href={home} class="font-semibold text-slate-900 dark:text-white">{profile.name}</a>
+    <nav aria-label={lang === 'fr' ? 'Navigation principale' : 'Main navigation'} class="hidden md:block">
+      <ul class="flex gap-5 text-sm">
+        {
+          links.map((id) => (
+            <li>
+              <a
+                href={`#${id}`}
+                class="text-slate-600 hover:text-teal-700 dark:text-slate-400 dark:hover:text-teal-300"
+              >
+                {t.nav[id]}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div class="flex items-center gap-2">
+      <a
+        href={otherHref}
+        hreflang={otherLang}
+        lang={otherLang}
+        aria-label={t.switchLangLabel}
+        class="rounded-md px-2 py-1 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+      >
+        <span aria-hidden="true">{otherLang.toUpperCase()}</span>
+      </a>
+      <button
+        type="button"
+        id="theme-toggle"
+        aria-label={t.themeLabel}
+        aria-pressed="false"
+        class="rounded-md p-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+      >
+        <Icon name="moon" class="h-4 w-4 dark:hidden" />
+        <Icon name="sun" class="hidden h-4 w-4 dark:block" />
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  const button = document.getElementById('theme-toggle');
+  const root = document.documentElement;
+  const sync = () => button?.setAttribute('aria-pressed', String(root.classList.contains('dark')));
+  sync();
+  button?.addEventListener('click', () => {
+    const dark = root.classList.toggle('dark');
+    try {
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+    } catch {
+      // Storage can be unavailable (private mode); the toggle still works for this visit.
+    }
+    sync();
+  });
+</script>
